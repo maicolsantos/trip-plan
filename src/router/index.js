@@ -1,17 +1,39 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import auth from '@/auth'
 
 import Homepage from '@/components/Homepage'
+import Login from '@/components/Login'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
+      path: '/login',
+      name: 'login',
+      component: Login,
+      meta: { guestOnly: true },
+    },
+    {
       path: '/',
       name: 'homepage',
-      component: Homepage
-    }
+      component: Homepage,
+      meta: { requireAuth: true },
+    },
+    { path: '*', redirect: '/' }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  const currentUser = auth.user()
+  const requireAuth = to.matched.some(record => record.meta.requireAuth)
+  const guestOnly = to.matched.some(record => record.meta.guestOnly)
+
+  if (requireAuth && !currentUser) next('login')
+  else if (guestOnly && currentUser) next('/')
+  else next()
+})
+
+export default router

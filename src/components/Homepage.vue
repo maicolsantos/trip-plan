@@ -3,6 +3,23 @@
     <v-toolbar app fixed clipped-left>
       <v-toolbar-title>Nossa Trip</v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-menu
+        offset-y
+        nudge-right
+        transition="slide-y-transition"
+      >
+        <v-btn slot="activator" flat>
+          {{ user.name }}
+          <v-list-tile-avatar class="avatar">
+            <img :src="user.avatar">
+          </v-list-tile-avatar>
+        </v-btn>
+        <v-list>
+          <v-list-tile>
+            <v-list-tile-title @click="logout">Sair</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
     </v-toolbar>
     <v-content>
       <v-container fluid fill-height>
@@ -41,6 +58,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
+import auth from '@/auth'
 import { DateField, TextField } from './fields'
 
 export default {
@@ -57,5 +77,22 @@ export default {
     DateField,
     TextField,
   },
+  computed: {
+    ...mapGetters({
+      user: 'user',
+    })
+  },
+  methods: {
+    logout () {
+      auth.logout()
+    }
+  }
 }
 </script>
+
+<style lang="sass">
+  .avatar
+    img
+      width: 30px
+      height: 30px
+</style>
