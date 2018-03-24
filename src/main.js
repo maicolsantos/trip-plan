@@ -10,6 +10,7 @@ import colors from 'vuetify/es5/util/colors'
 import App from './App'
 import router from './router'
 import store from './store'
+import auth from '@/auth'
 
 Vue.config.productionTip = false
 
@@ -29,6 +30,9 @@ new Vue({
   el: '#app',
   router,
   store,
+  beforeCreate () {
+    auth.init(this)
+  },
   components: { App },
   template: '<App/>'
 })
