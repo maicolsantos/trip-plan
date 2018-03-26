@@ -1,5 +1,6 @@
 'use strict'
 module.exports = {
   NODE_ENV: '"production"',
-  locale: '"pt-br"'
+  locale: '"pt-br"',
+  path: '"/toptrip"'
 }

@@ -39,7 +39,7 @@ export default {
   data () {
     return {
       modal: false,
-      value: '',
+      value: '2018-06-01',
       minDate: '2018-06-01',
       maxDate: '2018-06-10',
       locale: process.env.locale,
@@ -54,9 +54,17 @@ export default {
       return ''
     },
   },
+  created () {
+    this.$store.dispatch('addTrip', {
+      'date': moment(this.value).format('DD/MM/YYYY')
+    })
+  },
   methods: {
     saveDate () {
       this.$refs.dialog.save(this.value)
+      this.$store.dispatch('addTrip', {
+        'date': moment(this.value).format('DD/MM/YYYY')
+      })
     }
   }
 }

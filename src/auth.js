@@ -13,7 +13,7 @@ const auth = {
     firebase.initializeApp(config)
 
     this.uiConfig = {
-      signInSuccessUrl: '/',
+      signInSuccessUrl: `${process.env.path}/`,
       signInOptions: [
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       ]
@@ -30,9 +30,9 @@ const auth = {
       )
 
       if (requireAuth && !user) {
-        this.context.$router.push('login')
+        this.context.$router.push(`${process.env.path}login`)
       } else if (guestOnly && user) {
-        this.context.$router.push('/')
+        this.context.$router.push(`${process.env.path}/`)
       }
     })
   },
@@ -45,7 +45,7 @@ const auth = {
   logout () {
     firebase.auth().signOut()
     setTimeout(() => {
-      this.context.$router.push('login')
+      this.context.$router.push(`${process.env.path}login`)
     }, 500)
   }
 }

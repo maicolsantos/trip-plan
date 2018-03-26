@@ -11,18 +11,18 @@ const router = new Router({
   mode: 'history',
   routes: [
     {
-      path: '/login',
+      path: `${process.env.path}/login`,
       name: 'login',
       component: Login,
       meta: { guestOnly: true },
     },
     {
-      path: '/',
+      path: `${process.env.path}/`,
       name: 'homepage',
       component: Homepage,
       meta: { requireAuth: true },
     },
-    { path: '*', redirect: '/' }
+    { path: '*', redirect: `${process.env.path}/` }
   ]
 })
 
@@ -31,8 +31,8 @@ router.beforeEach((to, from, next) => {
   const requireAuth = to.matched.some(record => record.meta.requireAuth)
   const guestOnly = to.matched.some(record => record.meta.guestOnly)
 
-  if (requireAuth && !currentUser) next('login')
-  else if (guestOnly && currentUser) next('/')
+  if (requireAuth && !currentUser) next(`${process.env.path}/login`)
+  else if (guestOnly && currentUser) next(`${process.env.path}/`)
   else next()
 })
 
